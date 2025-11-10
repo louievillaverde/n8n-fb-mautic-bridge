@@ -5,10 +5,12 @@ ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=n8nMauticAutomation
 
-# Set default port
-ENV N8N_PORT=${PORT}
-EXPOSE ${PORT}
-CMD ["n8n", "start"]
+# Render automatically sets PORT
+ENV N8N_PORT=$PORT
+ENV N8N_HOST=n8n-fb-mautic-bridge.onrender.com
+ENV WEBHOOK_URL=https://n8n-fb-mautic-bridge.onrender.com/
 
-# Render expects the process to start like this
+EXPOSE $PORT
+
+# Start n8n in tunnel mode for Render compatibility
 CMD ["n8n", "start", "--tunnel"]
