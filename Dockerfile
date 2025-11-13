@@ -1,16 +1,18 @@
+# Use the official n8n image
 FROM n8nio/n8n:latest
 
-# Enable basic auth for your n8n instance
+# Enable basic authentication
 ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=n8nMauticAutomation
 
-# Render automatically sets PORT
-ENV N8N_PORT=$PORT
-ENV N8N_HOST=n8n-fb-mautic-bridge.onrender.com
-ENV WEBHOOK_URL=https://n8n-fb-mautic-bridge.onrender.com/
+# Use Render's assigned port
+ENV N8N_PORT=${PORT}
+ENV WEBHOOK_URL=https://${RENDER_EXTERNAL_HOSTNAME}/
+ENV N8N_EDITOR_BASE_URL=https://${RENDER_EXTERNAL_HOSTNAME}/
 
-EXPOSE $PORT
+# Expose the Render port
+EXPOSE ${PORT}
 
-# Start n8n in tunnel mode for Render compatibility
+# Start n8n correctly
 CMD ["n8n", "start", "--tunnel"]
